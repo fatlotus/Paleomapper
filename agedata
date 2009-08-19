@@ -1,0 +1,68 @@
+0.0,-999
+Future
+0.00001,0.0
+Present
+0.01,0.00001
+Quaternary
+1.77,0.01
+Pleistocene
+5.3,1.77
+Pliocene
+23.8,5.3
+Miocene
+33.7,23.8
+Oligocene
+55.6,33.7
+Eocene
+65.0,55.6
+Paleocene
+98.9,65.0
+Late Cretaceous
+144.2,98.9
+Early Cretaceous
+159.4,144.2
+Late Jurassic
+180.1,159.4
+Middle Jurassic
+205.7,180.1
+Early Jurassic
+227.4,205.7
+Late Triassic
+241.7,227.4
+Middle Triassic
+248.2,241.7
+Early Triassic
+258,248.2
+Late Permian
+286,258
+Early Permian
+320,286
+Pennsylvanian
+360,320
+Mississippian
+374,360
+Late Devonian
+387,374
+Middle Devonian
+408,387
+Early Devonian
+421,408
+Late Silurian
+438,421
+Early Silurian
+458,438
+Late Ordovician
+478,458
+Middle Ordovician
+505,478
+Early Ordovician
+523,505
+Late Cambrian
+540,523
+Middle Cambrian
+570,540
+Early Cambrian
+2500,570
+Proterozoic
+3800,2500
+Archean
