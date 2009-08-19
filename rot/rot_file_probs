@@ -1,0 +1,4 @@
+There are problems with the conversion from dnag to berggren et al 1995 
+that means that the addition of rotations does not work correctly.  DNAG 
+time scale  rot file works fine so I dont knw where the error enters. 
+Thsi needs to be cleaned up before a new Asia model can be completed.

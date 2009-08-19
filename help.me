@@ -1,0 +1,140 @@
+/***  Paleomapper's Instruction Booklet  ***/
+
+How does it Work???
+
+Well when you run the program it starts paleomap.c
+
+- First the program calls the function ageinit() found
+in the file timeline.c which proceeds to read the
+world outline from the file "agedata".  
+
+- Second the program calls open_phigs() which used to 
+have code for opening the phigs graphics window.  Since
+phigs doesn't work, it now opens an OpenGL window.  There
+are a lot of motif calls here because this where we set up
+all the window goodies like the pulldown menus and the
+pop-up menus.  Not all the window goodies are called here,
+because you can make calls to Motif (the X-window interface)
+later during the program.  The one big thing about motif though
+is that if you make a window goody it's tough to get rid of it,
+unless you close the whole window/widget.  
+I won't really go in to all the ins and outs
+of this stuff, because it's pretty complex, but you can use
+the comments in there to figure out what most of the
+commands do.  There are a number of calls to othere functions 
+here like build...something which is building the options boxes
+and the like.  choice.c has a large amount of motif setup 
+within it also.  The basic structure of open_phigs is: open the
+graphics window, call the window goodies, and setup the graphics
+window with preliminary commands.
+
+-Third the program calls the function init_data() found in the 
+data.c file.  This is where all the phigs display lists were 
+setup.  Now I have a few display lists setup, but useually only 
+grids.  First it finds the "world.dat" file which has the 3d
+outline of the globe.  Then it sets up the Outline display list
+in the function build_world();  After wards, other display lists
+are initialized, like the pole of rotation.  The two functions
+init_map and undo_map are not called at this time.  They will be
+called when we switch to 2d from 3d and vice versa.
+
+-Fourth the program calls the init_dials() function to try and
+load in the SGI dials.  This is found in the file called
+valuator.c and here the computer looks for the device with the
+specific dials name.  The label_dials function is now obselete
+because it didn't work with the OpenGL window.  Instead I just
+found how to call the different dials and find their values.
+But this function is necessary to know where to look for the 
+dials.
+
+-Fifth is the init_colour_table() function which I'm not too 
+sure has much use any more.  The function is found in the 
+misc.c file, and it appears that is was used to make all colors
+compati
+
+-Fifth is the init_colour_table() function which I'm not too 
+sure has much use any more.  The function is found in the 
+misc.c file, and it appears that is was used to make all colors
+compatible with a specific color wheel.  The color scheme for
+Open GL is different although the hsi2rgb() function is useful.
+
+-Sixth comes the check of the command line.  If there is a 
+command line string, it attempts to load that file, using the 
+picture_maker routine.  Within the picture_maker.c file, 
+the program actually goes out to get the data from the file 
+specified on the command line.  This same get data option is
+used later in the program if you wish to load data once the 
+program is running.  Data is read in picture_maker.c and data
+is put into display lists within send_vector.c.
+
+-Seventh comes the call to the mainloop() found in xmainloop.c.
+This is where all the action takes place, and anything that 
+happens before this can be considered the pre-game warm-up.  
+Once inside the mainloop() the program looks for events and then
+recalls a prespecified action for each type of event, normally
+termed a callback function.  Most of the motif stuff specifies
+callback routines, and almost all of the callback functions are
+found in callbacks.c now.  Most of the dials protocol is
+handled within xmainloop.c.  All the drawing to the screen is
+done within draw.c.  You will see frequent calls to the draw()
+function throughout the program, because this is the way we
+udpdate the screen-> we simply redraw it.  Most of the mouse 
+picking is done in pick.c.  The rotations and reconstructions 
+use a couple of different files.  move_plate.c keeps track of
+actual rotation numbers currently being used.  enter_pole.c 
+makes sure the right numbers are being displayed to the screen
+quick_send_rot.c implements these numbers calculating how to 
+rotate the points about a pole.  reconstructor.c has all the 
+rest of the stuff needed to calculate a reconstruction or
+animation.
+
+** Source Code File List:
+
+callbacks.c
+choice.c
+compare.c
+data.c
+deletor.c
+draw.c
+enter_pole.c
+fkeys.c
+labels.c
+lith.c
+misc.c
+motif.c
+move_plate.c
+paleomap.c
+pick.c
+picture_maker.c
+pmag.c
+quick_send_rot.c
+reconstructor.c
+send_vector.c
+timeline.c
+valuator.c
+view.c
+xmainloop.c
+
+** Other files:
+
+agedata
+world.dat
+paleodefs.h
+paleoexterns.h
+paleotypes.h
+pex.h
+XPick.h
+paleomap
+
+*.dat
+*.rot
+*.o
+
+** My directories:
+
+data/
+pmag/
+lith/
+movies/
+phigs/
+rot/

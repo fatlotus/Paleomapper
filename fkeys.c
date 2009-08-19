@@ -1,0 +1,50 @@
+#include "paleotypes.h"
+#include "paleodefs.h"
+#include "paleoexterns.h"
+
+extern print_message();
+
+key_box()
+{
+			print_message("     KEY LIST\n"
+			" Esc 	  2-D Mode\n"
+			" space   Get Data\n"
+			" P       Get PMAG Data\n"
+			" L       Get Lith Data\n"
+			" G       Get General Data\n"
+			" r       Reconstruction\n"
+			" a       Animation\n"
+			" k       Kill Data\n"
+			" s       Save Data\n"
+			" q       Quit\n"
+			" o       Projection\n"
+			" d       Hide Data\n"
+			" f       Hide Fog\n"
+			" c       Depth Clipping\n"
+			" p       Show Polygons\n"
+			" g       Show Globe\n"
+			" l       Insert Label\n"
+			" i       Get Image\n"
+			" h       Main Help\n"
+			" 1       Get Info\n"
+			" 2       Move Plate\n"
+			" 3       Delete Plate\n"	
+			" 4       Delete Elem\n"
+			" 5       Display Plate\n"
+			" 6       Display Elem\n"
+			" 7       Pick Color\n"
+			" F1      Options Box\n"
+			" F2      Plate Box\n"
+			" F3      PMAG Box\n"
+			" F4      Virtual Dials Box\n"
+			" F11     Lith Select Box\n"
+			" F12     Lith Options Box\n"
+			" F5      Rectilinear\n"
+			" F6      Molliweide\n"
+			" F7      Mercator\n"
+			" F8      Stereonet\n"
+			" ?       Key List\n"
+			" Enter   Redraw Screen");
+}
+
+

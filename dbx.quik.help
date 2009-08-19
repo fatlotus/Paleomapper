@@ -1,0 +1,21 @@
+###  Most Used Commands - From: /usr/lib/dbx.help  ###
+quit                           - quit dbx
+q                              - quit dbx
+run arg1 arg2 ... < f1 >& f2   - begin execution of the program
+r                              - rerun with same arguments as last "run"
+stop at <line>                 - suspend execution at the line
+stop in <proc>                 - suspend execution when <proc> called
+cont <signal>                  - continue with signal
+return                         - continue until the current procedure returns
+print <exp> ...                - print the value of the expressions
+printf "string", exp, ...      - print expressions using format string(C)
+where [n]                      - print currently active procedures (stack trace)status                         - print trace/stop/record's in effect
+func <proc>                    - move to activation level of <proc>
+<exp>[/ | ?]<count><format>    - display count number of formatted memory items
+file <file>                    - change current file to file
+list <exp1>,<exp2>             - list source lines from <exp1> to <exp2>
+list <exp>:<int>               - list source lines at <exp> for <int> lines
+whatis <variable>              - display the datatype of the named variable
+sh                             - enter sub-shell
+sh <shell command>             - perform shell command
+

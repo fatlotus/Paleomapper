@@ -1,0 +1,44 @@
+		### Main Menu ###
+
+Get Data
+Get PMAG data
+Get General data
+Reconstruction
+Animation
+Remove
+  By Data Type
+  By Age
+Re-Display All Data
+Save Data
+Quit
+
+		#Get Data
+  Command used to load a specific form of data. This is how most data is loaded into the
+program.  A File Selection popmenu is loaded, allowing the user to choose which datafile is
+desired.  The current directory for this file selection tool is the data/.  Although other
+directories can be searched, this directory should have plenty of data for use with 
+paleomapper.  A file can be loaded by double clicking on it, or by clicking on the file once, 
+and then clicking the OK button.  Once the file is loaded a message box will appear informing 
+you of how many vectors the program processed, which is a measure of how many points were 
+loaded from the datafiles.
+
+#Get PMAG data
+  Command used to load PMAG data points.  A file selection box is
+presented 
+
+#Get General data
+
+#Reconstruction
+
+#Animation
+
+#Remove
+  By Data Type
+
+  By Age
+
+#Re-Display All Data
+
+#Save Data
+
+#Quit
