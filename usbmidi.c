@@ -1,13 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "usbmidi.h"
 #include <Xm/Xm.h> 
 #include <sys/socket.h>
+#include <errno.h>
+#include <math.h>
+
 #include "draw.h"
 #include "paleotypes.h"
 #include "paleodefs.h"
-#include <math.h>
 #include "paleoexterns.h"
+#include "usbmidi.h"
 
 /* Private methods */
 void read_from_file();
@@ -24,8 +26,13 @@ int work_to_do();
 /* Global variables */
 double virtual_dials[6] = {0,0,0,0,0,0};
 char channels[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+char is_defined[15]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
 XtAppContext app;
 XtIntervalId redraw_interval = NULL;
+
+#define NUM_DEVICES 3
+char* devices[] = {"/dev/midi", "/dev/midi0", "/dev/midi1"};
 
 /* Functions declared elsewhere, that should be in a header file */
 virtual_value(int dial, float value);
@@ -47,11 +54,23 @@ midi_bbl = 0;
  * event loop. Public method.
  */
 void init_midi(XtAppContext a) {
-	app = a;
+	int i;
 	
-	if ((file = fopen(MIDI_DEVICE, "r")) == NULL) {
-		perror(MIDI_DEVICE);
-		exit(1);
+	app = a;
+
+	
+	for (i = 0; i < NUM_DEVICES; ++i) {
+		if ((file = fopen(devices[i], "r")) == NULL) {
+			perror(devices[i]);
+			
+			if (errno == ENOENT) {
+				continue;
+			} else {
+				exit(1);
+			}
+		} else {
+			break;
+		}
 	}
 	
 	XtAppAddWorkProc(app, check_for_input, NULL);
@@ -117,50 +136,68 @@ int check_for_input(void * ignored) {
  * thread safe.
  */
 void update_dials() {
-	virtual_dials[0] = (int)(channels[0] / 125.0 * 90.0 - 45.0) * 2;
-	virtual_dials[1] = (int)(channels[1] / 125.0 * 90.0 - 45.0) * 4;
+	if (is_defined[0]) {
+		virtual_dials[0] = (int)(channels[0] / 125.0 * 90.0 - 45.0) * 2;
+				
+		if (virtual_dials[0] >  90.0) virtual_dials[0] =  90.0;
+		if (virtual_dials[0] < -90.0) virtual_dials[0] = -90.0;
+		
+		value_rot_y = virtual_dials[0];
+	}
 	
-	if (virtual_dials[0] >  90.0) virtual_dials[0] =  90.0;
-	if (virtual_dials[0] < -90.0) virtual_dials[0] = -90.0;
+	if (is_defined[1]) {
+		virtual_dials[1] = (int)(channels[1] / 125.0 * 90.0 - 45.0) * 4;
 	
-	value_rot_y = virtual_dials[0];
-	value_rot_x = virtual_dials[1];
+		value_rot_x = virtual_dials[1];
+	}
+	
+	
+	if (is_defined[2] || is_defined[12] || is_defined[13]) {
+		virtual_dials[2] = (int)(channels[2]  / 125.0 * 90.0 - 45.0) * 2.0 +
+	                           (int)(channels[12] / 125.0 * 100.0) / 50.0 +
+		                   (int)(channels[13] / 125.0 * 100.0) / 500.0;
+	}
+	
+	if (is_defined[3] || is_defined[10] || is_defined[11]) {
+		virtual_dials[3] = (int)(channels[3]  / 125.0 * 90.0 - 45.0) * 4.0 +
+		                   (int)(channels[10] / 125.0 * 100.0) / 100.0 +
+		                   (int)(channels[11] / 125.0 * 100.0) / 1000.0;
+	}
 
-	
-	
-	virtual_dials[2] = (int)(channels[2]  / 125.0 * 90.0 - 45.0) * 2.0 +
-                           (int)(channels[12] / 125.0 * 100.0) / 50.0 +
-	                   (int)(channels[13] / 125.0 * 100.0) / 500.0;
-	
-	virtual_dials[3] = (int)(channels[3]  / 125.0 * 90.0 - 45.0) * 4.0 +
-	                   (int)(channels[10] / 125.0 * 100.0) / 100.0 +
-	                   (int)(channels[11] / 125.0 * 100.0) / 1000.0;
-	
-	virtual_dials[4] = (int)(channels[4]  / 125.0 * 90 - 45.0) * 4 +
-	                   (int)(channels[8]  / 125.0 * 100.0) / 25.0 +	
-	                   (int)(channels[10] / 125.0 * 100.0) / 250.0;
-	
+	if (is_defined[4] || is_defined[8] || is_defined[10]) {
+		virtual_dials[4] = (int)(channels[4]  / 125.0 * 90 - 45.0) * 4 +
+		                   (int)(channels[8]  / 125.0 * 100.0) / 25.0 +	
+		                   (int)(channels[10] / 125.0 * 100.0) / 250.0;
+	}
 	
 	/* <evilhack> */
 	PLATE * plat = plate_list[move_cont];
 	
-	if (plat) {
-		plat->latitude[which_pole] = 0;
-		plat->longitude[which_pole] = 0;
-		plat->angle[which_pole] = 0;
+	if (plat) {		
+		if (is_defined[2]) {
+			updateplate(1, (int)virtual_dials[2]);
+			plat->latitude[which_pole] = 0;
+		}
 		
-		updateplate(1, (int)virtual_dials[2]);
-		updateplate(2, (int)virtual_dials[3]);
-		updateplate(3, (int)virtual_dials[4]);
+		if (is_defined[3]) {
+			updateplate(2, (int)virtual_dials[3]);
+			plat->longitude[which_pole] = 0;
+		}
+		
+		if (is_defined[4]) {
+			updateplate(3, (int)virtual_dials[4]);
+			plat->angle[which_pole] = 0;
+		}
 	}
 	
 	/* </evilhack> */
 	
-	
-	virtual_dials[5] = (pow(channels[5] / 125.0f + 1.0f, 2) - 1.0f) * 10.0f + 0.5f;
-	
-	value_size = (float)virtual_dials[5];
-	value_trans_z = 0.9-value_size;
+	if (is_defined[5]) {
+		virtual_dials[5] = (pow(channels[5] / 125.0f + 1.0f, 2) - 1.0f) * 10.0f + 0.5f;
+		
+		value_size = (float)virtual_dials[5];
+		value_trans_z = 0.9-value_size;
+	}
 }
 
 /*
@@ -186,6 +223,7 @@ void read_from_file() {
 		case 0xB:
 			if (midi_byte_buffer[1] == 0 || midi_byte_buffer == 127) break;
 			
+			is_defined[midi_byte_buffer[0] - 1] = TRUE;
 			channels[midi_byte_buffer[0] - 1] = midi_byte_buffer[1] - 1;
 			update_dials();
 			break;
