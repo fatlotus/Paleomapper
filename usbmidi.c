@@ -139,17 +139,17 @@ int check_for_input(void * ignored) {
 void update_dials() {
 	if (is_defined[0]) {
 		virtual_dials[0] = (int)(channels[0] / 125.0 * 90.0 - 45.0) * 2;
-				
+		
 		if (virtual_dials[0] >  90.0) virtual_dials[0] =  90.0;
 		if (virtual_dials[0] < -90.0) virtual_dials[0] = -90.0;
 		
-		value_rot_y = virtual_dials[0];
+		value_rot_x = virtual_dials[0];
 	}
 	
 	if (is_defined[1]) {
 		virtual_dials[1] = (int)(channels[1] / 125.0 * 90.0 - 45.0) * 4;
 	
-		value_rot_x = virtual_dials[1];
+		value_rot_y = virtual_dials[1];
 	}
 	
 	
