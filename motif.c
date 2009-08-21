@@ -627,12 +627,14 @@ Widget wid;
    Arg args[8];
    char buffer[128];
    char newstring[10000];
+   int newstring_length = 0;
    char infile[80];
    FILE *fpin;
    int i;
    
-   return; // System commands do not work. Added by Jeremy Archer, Jun 27, 2008
-   
+   // return; // System commands do not work. Added by Jeremy Archer, Jun 27, 2008
+   // System commands changed out for git revisions. Jeremy Archer, Aug 21, 2009
+
 /**********************************************************************/
 /*  Create the row/column of the about box.                       */
 /**********************************************************************/
@@ -648,18 +650,35 @@ Widget wid;
    sep = XmCreateSeparator(rc,"sep",NULL,0);
    XtManageChild(sep);
 
-system("\mv pmt.info pmt.info%; awk '{if ($1 != \"PMT\") print $0}' pmt.info% > pmt.info");
-system("ls -l /usr/people/rowley/Paleomapper/pmt | awk '{i=NF-1; j=NF-2; k=NF-3; print \"PMT last modified \"$k,$j,$i}' >> pmt.info");
-
-    sprintf(infile,"pmt.info");
-    if ((fpin = fopen(infile,"r")) == NULL)
-    	{ printf("Error opening %s\n",infile); } 
-    if (fgets(buffer,127,fpin) != NULL) {
-        strcpy(newstring,buffer);
-    	while (fgets(buffer,127,fpin) != NULL) 
-            strcat(newstring,buffer);
-    	fclose(fpin);
-    }
+    /* system("\mv pmt.info pmt.info%; awk '{if ($1 != \"PMT\") print $0}' pmt.info% > pmt.info");
+     * system("ls -l /usr/people/rowley/Paleomapper/pmt | awk '{i=NF-1; j=NF-2; k=NF-3; print \"PMT last modified \"$k,$j,$i}' >> pmt.info");
+     */
+    
+    /* sprintf(infile,"pmt.info");
+     * if ((fpin = fopen(infile,"r")) == NULL)
+     * 	{ printf("Error opening %s\n",infile); } 
+     * if (fgets(buffer,127,fpin) != NULL) {
+     *     strcpy(newstring,buffer);
+     * 	while (fgets(buffer,127,fpin) != NULL) 
+     *         strcat(newstring,buffer);
+     * 	fclose(fpin);
+     * }
+     */
+    
+    char temp[1000];
+    
+    #ifdef GIT_VERSION
+    sprintf(temp, "Git version: %s\n\n", GIT_VERSION);
+    strcpy(newstring, temp);
+    newstring_length += strlen(temp);
+    #endif
+    
+    sprintf(temp, "%s", ABOUT);
+    strcpy(newstring + newstring_length, temp);
+    newstring_length += strlen(temp);
+    
+    newstring[newstring_length] = 0;
+    
     XtSetArg(args[0], XmNvisual, vi->visual); 
     XtSetArg(args[1], XmNeditMode, XmMULTI_LINE_EDIT); 
     XtSetArg(args[2], XmNvalue, newstring); 

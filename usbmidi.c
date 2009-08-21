@@ -66,6 +66,7 @@ void init_midi(XtAppContext a) {
 			if (errno == ENOENT) {
 				continue;
 			} else {
+				printf("Tried to open %i MIDI devices, but all failed. Please check that alsa-oss is installed.", NUM_DEVICES);
 				exit(1);
 			}
 		} else {

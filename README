@@ -9,8 +9,4 @@ To build, just do a `make`. Nothin' fancy, though you do need
 to install the headers for motif/lesstif, Xlib, and alsa-oss
 (if you want midi support).
 
-(the following shamelessly copied from `pmt.info`)
-Program written by Michael Brudzinski, with help from David Rowley
-
-Originally based on code written by Malcolm I. Ross
-
+More information available in ABOUT.

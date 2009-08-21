@@ -1,3 +1,10 @@
+GIT_VERSION   = $(shell git rev-parse HEAD 2>/dev/null)
+ABOUT         = $(shell cat ABOUT 2>/dev/null)
+
+define ABOUT
+$(shell cat ABOUT 2>/dev/null)
+endef
+
 DEST	      = /home/sysadmin/dest/
 
 LIBDIR 	      = $(DEST)
@@ -13,9 +20,18 @@ LIBS          = $(MORE) -lGL -lGLU -lXm -lXt -lXi -lXext -lX11
 
 MORE          = -lm
 
+
 BSD	          = # -cckr
 
 CFLAGS        = $(BSD) -g $(CC_ENVIRON) $(INCLUDES) $(DEBUG) -DLIB_DIR=\"$(LIBDIR)\"
+
+ifdef GIT_VERSION
+CFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+endif
+
+ifdef ABOUT
+CFLAGS += -DABOUT="\"$(ABOUT)\""
+endif
 
 LDFLAGS	      = $(DEBUG)
 
@@ -126,7 +142,8 @@ SRCS	      = callbacks.c \
 all:		$(PROGRAM)
 
 $(PROGRAM): $(OBJS)
-		@echo -n "Loading $(PROGRAM) ... "
+		@echo -n "Linking $(PROGRAM)... "
+				
 		@$(LINKER) $(LDFLAGS) $(OBJS) $(LIBS) -o $(PROGRAM)
 		@echo "done"
 
@@ -162,7 +179,7 @@ tags:           $(HDRS) $(SRCS); @ctags $(HDRS) $(SRCS)
 update:		$(DEST)/$(PROGRAM)
 
 $(DEST)/$(PROGRAM): $(SRCS) $(LIBS) $(HDRS) $(EXTHDRS)
-		@make -f $(MAKEFILE) DEST=$(DEST) install
+		make -f $(MAKEFILE) DEST=$(DEST) install
 ###
 callbacks.o:  paleodefs.h pex.h
 choice.o: paleotypes.h pex.h 
