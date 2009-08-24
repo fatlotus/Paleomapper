@@ -36,32 +36,7 @@ static char *blanks[] = {"","","","","","","",""};
 
 init_dials()
 {
-    int          i;
-    int          eventCount = 0;
-    XEventClass  eventClass[10];
-    XDeviceInfo  *devices = NULL;
-    int          ndevices;
-
-    devices = XListInputDevices(dpy, &ndevices);
-
-    
-    for (i = 0; i < ndevices; i++, devices++) {
-	printf("Name: :%s: \n",devices->name); 
-        if (strcmp(MYDIALBOX, devices->name) == 0) {	
-		printf("Found the %s \n",devices->name); 
-            dials_id = devices->id;
-            dials = XOpenDevice(dpy, dials_id);
-	    label_dials(dials, dlabels); 
-        }
-    }
-
-    eventCount = 0;
-    if (dials) {
-        DeviceMotionNotify(dials, DeviceMotion, eventClass[eventCount]);
-        eventCount++;
-    }
-
-    XSelectExtensionEvent(dpy, draw_win, eventClass, eventCount);
+	/* Dials moved to USB/MIDI interface */
 }
 
 #include <X11/keysym.h>
