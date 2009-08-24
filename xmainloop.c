@@ -45,67 +45,8 @@ XDeviceMotionEvent *event;
 mod_value(dev,value)
 int dev,value;
 {
-    switch (dev) {
-	case 1:  printf("Size  Value %d \n",value);  
-		if ((value_size+0.2*((float)value-old_size))>0) {
-		  value_size=value_size+0.2*((float)value-old_size);
-		  if (!mapproj) value_trans_z=0.9-value_size; 
-		  else { 
-		    size_scale = value_size/old_scale;
-		    value_trans_x=(size_scale)*value_trans_x;
-		    value_trans_y=(size_scale)*value_trans_y;
-		    old_scale = value_size;
-		  }
-		  if (fog_on) {
-		    glFogf(GL_FOG_START, 3.5-value_trans_z);
-		    glFogf(GL_FOG_END, 4.5-value_trans_z);
-		  }
-		  if (clipping) get_persp(4);
-		  old_size=value;
-		}
-		break;
-	case 2:  printf("Rotate about X axis  Value %d \n",value); 
-		value_rot_x=value_rot_x+rot_speed*((float)value-old_rot_x);
-		if (value_rot_x>180.0) value_rot_x-=360;
-		if (value_rot_x<-180.0) value_rot_x+=360; 
-		old_rot_x=value;
-		break;
-	case 3:  printf("Plate Pole Lat Value %d \n",value); 
-		updateplate(1,((float)value-old_rotlat)*rot_speed);
-		old_rotlat=(float)value;
-		break;
-	case 4: printf("Rotate about Y axis  Value %d \n",value);  
-		value_rot_y=value_rot_y+rot_speed*((float)value-old_rot_y);
-		if (value_rot_y>180.0) value_rot_y-=360;
-		if (value_rot_y<-180.0) value_rot_y+=360; 
-		old_rot_y=value;
-		if (mapproj==2) init_map();
-		break;
-	case 5: printf("Plate Pole Lon Value %d \n",value);  
-		updateplate(2,((float)value-old_rotlon)*rot_speed);
-		old_rotlon=(float)value;
-		break;
-	case 6: printf("2D X Axis Value %d \n",value);  
-		value_trans_x += (value_size/-0.9)*rot_speed*((float)value-old_trans_x)/200.0;
-		if (value_trans_x > value_size) value_trans_x -= 2*value_size;
-		if (value_trans_x < -value_size) value_trans_x += 2*value_size;
-		old_trans_x=value;
-		break;
-	case 7: printf("Plate Rotation Value %d \n",value);
-		updateplate(3,((float)value-old_rotang)*rot_speed);
-		old_rotang=(float)value;
-		break;
-	case 8: printf("2D Y Axis Value %d \n",value); 
-		value_trans_y += (value_size/-0.9)*rot_speed*((float)value-old_trans_y)/200.0;
-/*printf("vty %9.3f vsize %9.3f rs %9.3f val %9.3f oldv %9.3f \n",
-	value_trans_y,value_size,rot_speed,(float)value,old_trans_y);*/
-		if (value_trans_y > value_size/2) value_trans_y -= value_size;
-		if (value_trans_y < -value_size/2) value_trans_y += value_size;
-		old_trans_y=value;
-		break;
-	}
-
-	draw();
+	printf("obselete method called: mod_value");
+	exit(1);
 }
 
 display_dialval()
