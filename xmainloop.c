@@ -36,16 +36,14 @@ int *dev;
 int *val;
 XDeviceMotionEvent *event;
 {
-
-	*dev = event->first_axis + 1;
-        *val = event->axis_data[0];
-
+	printf("obselete method called: getdialval\n");
+	exit(1);
 }
 
 mod_value(dev,value)
 int dev,value;
 {
-	printf("obselete method called: mod_value");
+	printf("obselete method called: mod_value\n");
 	exit(1);
 }
 

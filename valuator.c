@@ -36,6 +36,9 @@ static char *blanks[] = {"","","","","","","",""};
 
 init_dials()
 {
+	printf("obselete method called: init_dials\n");
+	exit(1);
+	
 	/* Dials moved to USB/MIDI interface */
 }
 
@@ -78,7 +81,7 @@ Widget                w;
 caddr_t               client_data;
 XmAnyCallbackStruct   *call_data;
 {
-	printf("obselete method called: updatedialsCB");
+	printf("obselete method called: updatedialsCB\n");
 	exit(1);
 }
 
