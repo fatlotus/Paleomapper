@@ -78,67 +78,8 @@ Widget                w;
 caddr_t               client_data;
 XmAnyCallbackStruct   *call_data;
 {
-    char *input_string;
-    int num,changed=0;
-    float newval;
-    char text[10];
-    PLATE	   *plat;
-
-    input_string = XmTextGetString(dial2_text);
-    newval=atof(input_string);
-    while (newval>180.0) { newval-=360.0; changed++; }
-    while (newval<-180.0) { newval+=360.0; changed++; }
-    value_rot_x = newval;
-    XtFree(input_string);
-    value_scale[1]=(int)value_rot_x;
-    XmScaleSetValue(scale[1],(int)value_rot_x);
-    if (changed) { sprintf(text,"%3.1f",value_rot_x);
-    		   XmTextSetString(dial2_text,text); }
-
-    input_string = XmTextGetString(dial4_text);
-    newval=atof(input_string);
-    while (newval>180.0) { newval-=360.0; changed++; }
-    while (newval<-180.0) { newval+=360.0; changed++; }
-    value_rot_y = -newval;
-    XtFree(input_string);
-    value_scale[3]=-(int)value_rot_y;
-    XmScaleSetValue(scale[3],-(int)value_rot_y);
-    if (changed) { sprintf(text,"%3.1f",-value_rot_y);
-    		   XmTextSetString(dial4_text,text); }
-
-    plat = plate_list[move_cont];
-    if (plat) {
-    	input_string = XmTextGetString(dial3_text);
-    	newval=atof(input_string);
-    	while (newval>180.0) { newval-=360.0; changed++; }
-    	while (newval<-180.0) { newval+=360.0; changed++; }
-    	updateplate(1,newval-plat->latitude[which_pole]);
-
-    	input_string = XmTextGetString(dial5_text);
-    	newval=atof(input_string);
-    	while (newval>180.0) { newval-=360.0; changed++; }
-    	while (newval<-180.0) { newval+=360.0; changed++; }
-    	updateplate(2,newval-plat->longitude[which_pole]);
-
-    	input_string = XmTextGetString(dial7_text);
-    	newval=atof(input_string);
-    	while (newval>180.0) { newval-=360.0; changed++; }
-    	while (newval<-180.0) { newval+=360.0; changed++; }
-    	updateplate(3,newval-plat->angle[which_pole]);
-    }
-
-    sprintf(text,"%3.1f",value_size);
-    XmTextSetString(dial1_text,text);
-
-    if (mapproj) {
-    	sprintf(text,"%3.1f",(value_trans_x/value_size)*-180.0);
-    	XmTextSetString(dial6_text,text);
-
-    	sprintf(text,"%3.1f",(value_trans_y/value_size)*-180.0);
-    	XmTextSetString(dial8_text,text);
-    }
-
-    draw();
+	printf("obselete method called: updatedialsCB");
+	exit(1);
 }
 
 
