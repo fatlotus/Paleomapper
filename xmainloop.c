@@ -187,80 +187,11 @@ float value;
 
 mainloop()
 {
-    XEvent              event;
-    XDeviceMotionEvent  *dm;
-    XDeviceButtonEvent	*pick;
-    int                 majop, first_ev, first_err;
-    int                 motion;
-    int                 dev;
-    int 		value;
-    int			myint;
-
-    myint = 1;
-    dm = (XDeviceMotionEvent *) &event;
-    pick = (XDeviceButtonEvent *) &event;
-    while (myint == 1) {
-	
-	// 2009 //
-	
-	// /2009 //	
-	
-        XtAppNextEvent(app,&event);	
-	if (event.type < LASTEvent) {
-            XtDispatchEvent(&event);
-	} 
-	else if (event.type == DeviceMotion && dm->deviceid == dials_id) {
-	    getdialval(dm, &value, &dev);
-
-printf("A: Dial Number %d \n",dev);
-printf("A: Values %d %d %d %d %d %d \n",dm->axis_data[0],dm->axis_data[1],
-                       dm->axis_data[2],dm->axis_data[3],dm->axis_data[4],
-                       dm->axis_data[5]);
-printf("A: First Axis %d \n",dm->first_axis);
-printf("A: Axes Count %u \n",dm->axes_count);
-printf("A: Device State %u \n",dm->device_state);
-
-            motion = TRUE;
-            while (XtAppPending(app) > 0 && motion) {
-                while (QLength(dpy) > 0 && motion) {
-                    XtAppPeekEvent(app,&event);
-		    if (event.type == DeviceMotion &&
-		       ((XDeviceMotionEvent *)(&event))->deviceid == dials_id) {
-			XtAppNextEvent(app,&event);
-			getdialval(&event, &value, &dev);
-		    }
-		    else
-   			motion = FALSE;
-		}
-	    }
-
-		mod_value(dev,value);
-		display_dialval();
-
-/*	    if (dev <= 3){
-                update_struct(dev-1, value);
-		printf("update_struct\n");
-	    }
-	    else if (dev > 4 && dev < 8) {
-		updateplate(dev-4, value);
-		printf("updateplate\n");
-	    }
-*/
-        }
-/*
-if (event.type==8 && pick->state==0) 
-printf("event.type %d pick->state %d type %d \n",
-	event.type,pick->state,pick->type);
-*/
-	if (event.type == 4) {
-/*		printf("Event: %d \n",pick->type);
-		printf("Button: %d \n",pick->state);
-*/		do_pick(pick);	
+	XEvent event;
+	while(1) {
+		XtAppNextEvent(app, &event);
+		XtDispatchEvent(&event);	
 	}
-
-/*	printf("Event: %d \n",event.type); */
-
-    }
 }
 
 reset_dials(home)
