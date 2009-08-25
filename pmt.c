@@ -21,7 +21,7 @@ char *argv[];
     open_phigs(&argc,argv);
     init_data(); 
     
-    init_dials(); 
+/*    init_dials();  */ 
 /*    init_colour_table();*/
 
     if (argc == 2) picture_maker(argv[1]);

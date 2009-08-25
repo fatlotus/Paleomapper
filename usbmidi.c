@@ -176,25 +176,25 @@ void update_dials() {
 	
 	if (plat) {		
 		if (is_defined[2]) {
-			updateplate(1, (int)virtual_dials[2]);
 			plat->latitude[which_pole] = 0;
+			updateplate(1, (int)virtual_dials[2]);
 		}
 		
 		if (is_defined[3]) {
-			updateplate(2, (int)virtual_dials[3]);
 			plat->longitude[which_pole] = 0;
+			updateplate(2, (int)virtual_dials[3]);
 		}
 		
 		if (is_defined[4]) {
-			updateplate(3, (int)virtual_dials[4]);
 			plat->angle[which_pole] = 0;
+			updateplate(3, (int)virtual_dials[4]);
 		}
 	}
 	
 	/* </evilhack> */
 	
 	if (is_defined[5]) {
-		virtual_dials[5] = (pow(channels[5] / 125.0f + 1.0f, 2) - 1.0f) * 10.0f + 0.5f;
+		virtual_dials[5] = pow(10, channels[5] * 5.0f / 128.0f) - 0.25f;
 		
 		value_size = (float)virtual_dials[5];
 		value_trans_z = 0.9-value_size;
