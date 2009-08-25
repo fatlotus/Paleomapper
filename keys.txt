@@ -1,0 +1,61 @@
+space ?	Get Data
+P ?	Get PMAG
+L ?	Get Lith
+r ?	Reconstruction
+a ?	Animation
+	Delete
+	Redisplay All Data
+k ?	Clear Data (Kill Data)?
+s ?	Save Data
+q ?	Quit
+
+F1	Options Box
+F2	PMAG Box
+F3	Plate Box
+F4	Virtual Dials Box
+F5	Lith Select Box
+F6	Lith Options Box
+
+o ?	Projection (ortho proj)
+t Esc ?	2-D Mode
+	??
+
+F9 ?	Rectilinear
+F10 ?	Molliweide
+F11 ?	Mercator
+F12 ?	Stereonet
+
+	Hide Grid
+d ?	Hide Data
+f ?	Hide Fog
+c	Depth Clipping
+p	Show Polygons
+g ?	Show Globe
+
+1 ?	Get Info
+2 ?	Move Plate
+3 ?	Delete Elem
+4 ?	Delete Plate
+5 ?	Display Elem
+6 ?	Display Plate
+7 ?	Pick Color
+	Delete Labels ?
+
+l	Labels ?
+
+i ?	Get Image
+	Dump Image
+	Convert Image
+	Make Movie
+	Play Movie
+
+h ?	Main Help
+	ect.
+
+Arrow keys = Animation
+? Return = Redraw
+? m = Loop through PickMode
+	PickMode++;  if PM>7 then PM=1
+? = keylist Box
+? < (,) and > (.) = move lon
+? numbers = move lat and lon
